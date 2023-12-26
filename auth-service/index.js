@@ -1,7 +1,7 @@
 const express = require("express");
 const { default: mongoose } = require("mongoose");
 const User = require("./user");
-const { jwt } = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 
 const app = express();
@@ -81,16 +81,13 @@ app.post("/auth/login", async (request, response) => {
 	};
 
 	// signing a new token 
-	const token = jwt.sign(payload, "secret", options, (err, token ) => {
-		if(err) {
-			// then we have to console the log error that we  have faced for this purpose 
-			console.log("error is as follows \n\n\n", err);
-		}else{
-			console.log("the token which we got is as follows \n\n", token);
-			return response.json({success : true, token : token});
-		}
+	// const token = jwt.sign(payload, "secret", options);
+	const token = jwt.sign(payload, "some secret key", {
+		expiresIn: 6000,
+
 	});
-	
+	// this.tokens = await this.tokens.concat({token : token});
+
 	console.log("the token value is as follows \n", token);
 	return response.json({token : token});
 });
